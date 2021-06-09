@@ -64,19 +64,14 @@ jobs:
         - run:
             name: Back-end build
             command: |
+              # Your code here
               cd backend
               npm i
               npm run build
+              
         - save_cache:
             paths: [backend/node_modules]
-            key: backend-build  # -<< pipeline.id >>
-        # - save_cache:
-        #     paths: [backend/dist]
-        #     key: backend-dist  # -<< pipeline.id >>
-        # - slack/notify:
-        #     event: fail
-        #     template: basic_fail_1
-
+            key: backend-build
     test-frontend:
       docker:
         - image: circleci/node:13.8.0
