@@ -65,8 +65,12 @@ jobs:
             name: Back-end build
             command: |
               # Your code here
+
               cd backend &&\
-              npm i &&\
+              npm cache clean --force
+              npm install
+              npm start
+              npm i
               npm run build
                 
         - save_cache:
