@@ -50,9 +50,9 @@ jobs:
         - save_cache:
             paths: [frontend/node_modules]
             key: frontend-build  # -<< pipeline.id >>
-        - slack/notify:
-            event: fail
-            template: basic_fail_1
+        # - slack/notify:
+        #     event: fail
+        #     template: basic_fail_1
 
     build-backend:
       docker:
@@ -70,12 +70,12 @@ jobs:
         - save_cache:
             paths: [backend/node_modules]
             key: backend-build  # -<< pipeline.id >>
-        - save_cache:
-            paths: [backend/dist]
-            key: backend-dist  # -<< pipeline.id >>
-        - slack/notify:
-            event: fail
-            template: basic_fail_1
+        # - save_cache:
+        #     paths: [backend/dist]
+        #     key: backend-dist  # -<< pipeline.id >>
+        # - slack/notify:
+        #     event: fail
+        #     template: basic_fail_1
 
     test-frontend:
       docker:
@@ -89,9 +89,9 @@ jobs:
             command: |
               cd frontend
               npm run test
-        - slack/notify:
-            event: fail
-            template: basic_fail_1
+        # - slack/notify:
+        #     event: fail
+        #     template: basic_fail_1
                   
     test-backend:
       docker:
@@ -105,9 +105,9 @@ jobs:
             command: |
               cd backend
               npm run test
-        - slack/notify:
-            event: fail
-            template: basic_fail_1
+        # - slack/notify:
+        #     event: fail
+        #     template: basic_fail_1
               
 #   scan-frontend:
 #     docker:
