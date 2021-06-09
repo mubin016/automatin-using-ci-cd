@@ -66,8 +66,8 @@ jobs:
             command: |
               # Your code here
               cd backend
-              npm i
-              npm run build
+              npm i --prefix backend
+              npm run lint --prefix backend
               
         - save_cache:
             paths: [backend/node_modules]
