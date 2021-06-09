@@ -33,88 +33,82 @@ commands:
             fi
             
 jobs:
-  build-frontend:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [frontend-build]
-      - run:
-          name: Build front-end
-          command: |
-            cd frontend
-            sudo npm install webpack-dev-server -g
-            sudo npm install 
-            sudo npm run build
-            # exit 1
-      - save_cache:
-          paths: [frontend/node_modules]
-          key: frontend-build
+    build-frontend:
+      docker:
+        - image: circleci/node:13.8.0
+      steps:
+        - checkout
+        - restore_cache:
+            keys: [frontend-build]
+        - run:
+            name: Build front-end
+            command: |
+              cd frontend
+              sudo npm install webpack-dev-server -g
+              sudo npm install
+              sudo npm run build
+        - save_cache:
+            paths: [frontend/node_modules]
+            key: frontend-build  # -<< pipeline.id >>
+        - slack/notify:
+            event: fail
+            template: basic_fail_1
 
-  build-backend:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [backend-build]
-      - run:
-          name: Back-end build
-          command: |
-             cd backend
-             npm i
-             npm run build
-            #  exit 1
-      - save_cache:
-          paths: [backend/node_modules]
-          key: backend-build
-      - save_cache:
-          paths: [backend/dist]
-          key: backend-dist  # -<< pipeline.id >>
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
+    build-backend:
+      docker:
+        - image: circleci/node:13.8.0
+      steps:
+        - checkout
+        - restore_cache:
+            keys: [backend-build]
+        - run:
+            name: Back-end build
+            command: |
+              cd backend
+              npm i
+              npm run build
+        - save_cache:
+            paths: [backend/node_modules]
+            key: backend-build  # -<< pipeline.id >>
+        - save_cache:
+            paths: [backend/dist]
+            key: backend-dist  # -<< pipeline.id >>
+        - slack/notify:
+            event: fail
+            template: basic_fail_1
 
-  test-frontend:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      # Checkout code from git
-      # Restore from cache
-      # Your job code here
-      - checkout
-      - restore_cache:
-        keys: [frontend-build] # -<<pipeline.id>>
-      - run: 
-          name: Front-end test
-          command: |
-            cd frontend
-            npm run test
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
-                
-  test-backend:
-    docker:
-      # Docker image here
-      - image: circleci/node:13.8.0
-    steps:
-      # Checkout code from git
-      - checkout
-      # Restore from cache
-      - restore_cache:
-          keys: ["backend-build"] # -<<pipeline.id>>
-      # Your job code here
-      - run:
-          name: Backend test
-          command: |
-            cd backend
-            npm run test
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
-            
+    test-frontend:
+      docker:
+        - image: circleci/node:13.8.0
+      steps:
+        - checkout
+        - restore_cache:
+            keys: ["frontend-build"]  # -<< pipeline.id >>"
+        - run:
+            name: Font-end test
+            command: |
+              cd frontend
+              npm run test
+        - slack/notify:
+            event: fail
+            template: basic_fail_1
+                  
+    test-backend:
+      docker:
+        - image: circleci/node:13.8.0
+      steps:
+        - checkout
+        - restore_cache:
+            keys: ["backend-build"]  # -<< pipeline.id >>"
+        - run:
+            name: Back-end test
+            command: |
+              cd backend
+              npm run test
+        - slack/notify:
+            event: fail
+            template: basic_fail_1
+              
 #   scan-frontend:
 #     docker:
 #       # Docker image here
