@@ -102,9 +102,9 @@ jobs:
           name: Run backend test.
           command: |
             cd backend
-            npm audit fix
+            # npm audit fix
             npm run test
-            exit 1
+            
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
