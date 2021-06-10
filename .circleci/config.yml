@@ -194,7 +194,7 @@ jobs:
               --tags project="udapeople--<< pipeline.parameters.workflow-id >>" \
               --stack-name "backend--<< pipeline.parameters.workflow-id >>" \
               --parameter-overrides ID="-<< pipeline.parameters.workflow-id >>"  
-              exit 1
+            exit 1
       - run:
           name: Ensure front-end infrastructure exist
           command: |
@@ -203,8 +203,8 @@ jobs:
               --tags project="udapeople--<< pipeline.parameters.workflow-id >>" \
               --stack-name "frontend--<< pipeline.parameters.workflow-id >>" \
               --parameter-overrides ID="-<< pipeline.parameters.workflow-id >>"  
-              exit 1
-      - run:
+            exit 1
+      # - run:
       #     name: Add back-end ip to ansible inventory
       #     command: |
       #       # Your code here
