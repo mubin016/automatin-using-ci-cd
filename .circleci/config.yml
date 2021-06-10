@@ -136,13 +136,13 @@ jobs:
       - checkout
       # Restore from cache
       - restore_cache:
-        keys: [frontend-build]
+          keys: [frontend-build]
       # Your job code here
       - run: 
-        name: Analyze frontend.
-        command: | 
-          cd frontend
-          npm audit fix --audit-level=critical --force
+          name: Analyze frontend.
+          command: | 
+            cd frontend
+            npm audit fix --audit-level=critical --force
 
       - slack/notify:
           event: fail
