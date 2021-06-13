@@ -260,41 +260,41 @@ jobs:
 
 #       # Here's where you will add some code to rollback on failure      
 
-configure-infrastructure:
-    docker:
-      # Docker image here that supports Ansible
-      - image: python:3.7-alpine3.11
-    steps:
-      # Checkout code from git
-      - checkout
-      # Add ssh keys with fingerprint
-      - add_ssh_keys:
-          fingerprints: ["f1:47:f1:1b:e2:26:52:ea:ac:97:cb:20:d2:39:52:4a"]
-      # attach workspace
-      - attach_workspace:
-          at: ~/project
-      - run:
-          name: Install ansible.
-          command: |
-            apk add --update ansible
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update tar gzip ansible nodejs npm curl
-            pip install awscli
-      - run:
-          name: Check there is .env file at workspace.
-          command: cat backend/.env
-      - run:
-          name: Configure server with ansible
-          no_output_timeout: 30m
-          command: |
-            cd .circleci/ansible
-            echo "Inventory content"
-            cat inventory.txt
-            ansible-playbook -i inventory.txt configure-server.yml
-      - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:4}
+  configure-infrastructure:
+      docker:
+        # Docker image here that supports Ansible
+        - image: python:3.7-alpine3.11
+      steps:
+        # Checkout code from git
+        - checkout
+        # Add ssh keys with fingerprint
+        - add_ssh_keys:
+            fingerprints: ["f1:47:f1:1b:e2:26:52:ea:ac:97:cb:20:d2:39:52:4a"]
+        # attach workspace
+        - attach_workspace:
+            at: ~/project
+        - run:
+            name: Install ansible.
+            command: |
+              apk add --update ansible
+        - run:
+            name: Install dependencies
+            command: |
+              apk add --update tar gzip ansible nodejs npm curl
+              pip install awscli
+        - run:
+            name: Check there is .env file at workspace.
+            command: cat backend/.env
+        - run:
+            name: Configure server with ansible
+            no_output_timeout: 30m
+            command: |
+              cd .circleci/ansible
+              echo "Inventory content"
+              cat inventory.txt
+              ansible-playbook -i inventory.txt configure-server.yml
+        - destroy-environment:
+            workflow_id: ${CIRCLE_WORKFLOW_ID:0:4}
 
   run-migrations:
     docker:
