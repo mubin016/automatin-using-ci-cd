@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@4.2.0
-  aws-cli: circleci/aws-cli@1.3.2
+  aws-cli: circleci/aws-cli@2.0.3
 
 commands:
   destroy-environment:
@@ -17,7 +17,7 @@ commands:
           command: |
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
-            aws s3 rb s3://udapeople-160110 --force
+            aws s3 rb s3://udapeople-${CIRCLE_WORKFLOW_ID} --force
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.  
     steps:
